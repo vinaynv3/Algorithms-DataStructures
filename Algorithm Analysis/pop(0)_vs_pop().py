@@ -19,7 +19,6 @@ def func_pop_end(alist_length):
     l.pop()
 
 
-
 for value in range(1000000,10000001,100000):
 
     #pop(0) time analysis
