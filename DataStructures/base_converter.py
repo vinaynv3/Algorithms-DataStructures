@@ -18,21 +18,26 @@ def BaseConvertor(dec_value,base):
 
 
     while dec_value != 0:
-        value = values[dec_value % base]
+        value = values[dec_value%base]
         s.add(value)
         dec_value = dec_value//base
 
-    while s.isEmpty():
-        get_last_item = s.remove()
-        result +=get_last_item
+    while not s.isEmpty():
+        get_last_item = s[-1]
+        #print(get_last_item)
+        s.remove()
 
+        result += str(get_last_item)
+    
+    #print(result,)
     return result
 
 
 if __name__ == "__main__":
 
-    dec_value = sys.argv[-2] 
-    base = sys.argv[-1]
+    dec_value = int(sys.argv[-2]) 
+    base = int(sys.argv[-1])
+    #print(type(dec_value),type(base))
     print(BaseConvertor(dec_value,base))
 
 
