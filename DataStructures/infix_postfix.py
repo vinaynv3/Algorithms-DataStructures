@@ -63,22 +63,36 @@ def evaluator(expression):
 
     while pos < len(exp):
 
-        if operators[exp[pos]] == 1:
-            val = int(exp[pos-1]) / int(exp[pos-2])
-            exp[pos-2:pos+1] = str(val)
+        if operators.setdefault(exp[pos],0) == 1:
+            
+            val = int(container[-2]) / int(container[-1])
+            container.remove()
+            container.remove()
+            container.add(val)
 
-        elif operators[exp[pos]] == 2:
-            val = int(exp[pos-1]) * int(exp[pos-2])
-            exp[pos-2:pos+1] = str(val)
 
-        elif operators[exp[pos]] == 3:
-            val = int(exp[pos-1]) + int(exp[pos-2])
-            exp[pos-2:pos+1] = str(val)
 
-        elif operators[exp[pos]] == 4:
+        elif operators.setdefault(exp[pos],0) == 2:
+            
+            val = int(container[-2]) * int(container[-1])
+            container.remove()
+            container.remove()
+            container.add(val)
+
+
+        elif  operators.setdefault(exp[pos],0) == 3:
+            
             val = int(container[-2]) + int(container[-1])
-            container.pop()
-            container.pop()
+            container.remove()
+            container.remove()
+            container.add(val)
+
+
+        elif  operators.setdefault(exp[pos],0) == 4:
+            
+            val = int(container[-2]) - int(container[-1])
+            container.remove()
+            container.remove()
             container.add(val)
 
         else:
@@ -86,14 +100,13 @@ def evaluator(expression):
         
         pos += 1
     
-    return exp
+    return container[-1]
 
 def main():
 
-    #expression = input("INFIX: ")
-    #print(convertor(expression))
-    exp = input("expression: ")
-    print(evaluator(exp))
+    expression = convertor(input("INFIX: "))
+    print(expression)
+    print(evaluator(expression))
 
 
 if __name__ == "__main__":
