@@ -10,7 +10,7 @@ from queue import Queue
 
 class Printer:
 
-    def __def__(self,task = None):
+    def __init__(self,task = None):
         self.task = task 
         self.availability = True
 
@@ -29,6 +29,7 @@ class Printer:
             pages -=1
 
         self.availability = True
+        self.task.status = True
 
 
     def remainingPages(self):
@@ -66,36 +67,59 @@ class Student:
 
 def QueueStatus(printing_queue,printerDetails):
     
-    tasks = Printing_queue
+    tasks = printing_queue
     total_pages  = []
     for task in tasks:
         pages = task.tasks[0].total + task.tasks[1].total
         total_pages.append(pages)
     
-    seconds = float(sum(total_pages)) % float(1/6)
+    seconds = float(sum(total_pages)) / float(1/6)
     minutes = seconds/float(60)
+    return (minutes,printerDetails.remainingPages())
 
 
 
 
 def main():
     
-    students = [Student(student_id) for student_id in range(1,11)]
+    students = [Student(student_id) for student_id in range(1,10)]
 
     print_queue = Queue()
-    printer = Printer()
+
+    print("\n\t\tPrinter Initiated")
 
     for student in students:
         tasks_list = [Task(), Task()]
         student.addTasks(tasks_list)
         print_queue.add(student)
     
-    while bool(print_queue):
+    while not bool(print_queue):
+
+        student_tasks = print_queue.remove()
+        tasks = student_tasks.tasks
+        for task in range(len(tasks)):
+
+            
+            printer = Printer()
+            
+            print("\n\t---PRINTING!!--")
+            if printer.isBusy():
+                printer.task = tasks[task]
+                printer.print()
+                current_status = QueueStatus(print_queue,printer)
+                print("Printing Student {0} task:{1}".format(student_tasks.id,task+1))
+                print("Total pages: ",current_status[1])
+                print("Average waiting time {0} min".format(current_status[0]))
+                if printer.taskCompleted():
+                    print("Current Task Print Completed")
+
+            else: 
+                print("Printer is busy, will update you the status very shortly ")
+            
+
+    print("ALL TASKS HAVE PRINTED")
 
 
-
-        
-    
 
 
 if __name__ == "__main__":
