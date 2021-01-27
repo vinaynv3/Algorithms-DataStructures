@@ -20,8 +20,19 @@ def CoinChange(coin):
 
     return total_coins
 
+def CoinChangeRecursion(amount,coin_list):
+
+    amount = int(amount)
+    if amount == 0:
+        return 0
+
+    else:
+        return amount // coin_list[0] +  CoinChangeRecursion(amount % coin_list[0],coin_list[1:])
+
+
 def main():
-    print(CoinChange(sys.argv[-1]))
+    #print(CoinChange(sys.argv[-1]))
+    print(CoinChangeRecursion(sys.argv[-1],[25,10,5,1]))
 
 if __name__ == "__main__":
 
